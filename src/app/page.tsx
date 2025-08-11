@@ -8,6 +8,10 @@ import {authClient} from "@/lib/auth-client";
 
 export default function Home() {
 
+   const { 
+        data: session, 
+    } = authClient.useSession() 
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +29,17 @@ export default function Home() {
         window.alert("Success")
       }
     })
+  }
+
+  if (session) {
+    return (
+      <div className="flex flex-col p-4 gap-y-4">
+        <p>Logged in as {session.user.name}</p>
+        <Button onClick={() => authClient.signOut()}>
+          Sign Out
+        </Button>
+      </div>
+    )
   }
 
   return (
